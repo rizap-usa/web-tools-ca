@@ -501,8 +501,11 @@ async function processAdmissionFee() {
 
     // 發票種類
     if (admissionFeeResult[i][12]!=null) {
-      if (admissionFeeResult[i][12].includes("Duplicate")) admissionFeeResult[i][12] = "二聯式發票";
-      if (admissionFeeResult[i][12].includes("Triplicate")) admissionFeeResult[i][12] = "三聯式發票";
+//      if (admissionFeeResult[i][12].includes("Duplicate")) admissionFeeResult[i][12] = "二聯式發票";
+//      if (admissionFeeResult[i][12].includes("Triplicate")) admissionFeeResult[i][12] = "三聯式發票";
+   
+      if (admissionFeeResult[i][12].includes("Duplicate")) admissionFeeResult[i][12] = "Receipt(2)";
+      if (admissionFeeResult[i][12].includes("Triplicate")) admissionFeeResult[i][12] = "Receipt(3)";
     }
 
     // 發票發行日期
@@ -600,8 +603,11 @@ function productCheck(){
  
         // 發票種類
         if (productResult[i][18]!=null) {
-          if (productResult[i][18].includes("Duplicate")) productResult[i][18] = "二聯式發票";
-          if (productResult[i][18].includes("Triplicate")) productResult[i][18] = "三聯式發票";
+//          if (productResult[i][18].includes("Duplicate")) productResult[i][18] = "二聯式發票";
+//          if (productResult[i][18].includes("Triplicate")) productResult[i][18] = "三聯式發票";
+        
+          if (productResult[i][18].includes("Duplicate")) productResult[i][18] = "Receipt(2)";
+          if (productResult[i][18].includes("Triplicate")) productResult[i][18] = "Receipt(3)";
         }
 
         // 發票發行日期
