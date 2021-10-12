@@ -1007,8 +1007,10 @@ async function contractCheck(){
      contractResult[i][64] = "";
     if (contractResult[i][66]!=null) {
      
-      if (contractResult[i][66].includes("Duplicate")) contractResult[i][64] = "二聯式發票";
-      if (contractResult[i][66].includes("Triplicate")) contractResult[i][64] = "三聯式發票";
+//      if (contractResult[i][66].includes("Duplicate")) contractResult[i][64] = "二聯式發票";
+//      if (contractResult[i][66].includes("Triplicate")) contractResult[i][64] = "三聯式發票";
+      if (contractResult[i][66].includes("Duplicate")) contractResult[i][64] = "Receipt(2)";
+      if (contractResult[i][66].includes("Triplicate")) contractResult[i][64] = "Receipt(3)";
     }
 //    if (contractResult[i][73]!=null) {
 //      contractResult[i][71] = contractResult[i][73];
