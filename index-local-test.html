@@ -5,15 +5,18 @@
     <script> 
       // Configuratiion
       var experimental=true;
-      var local_api = true;
+      var local_api = false;
       
       if (local_api) {
         var apiUrlBase = "http://localhost:5000/";
       } else {
         var apiUrlBase = "https://app-for-sql-ca.herokuapp.com/";
       }
-
-      console.log(apiUrlBase);   
+  
+      console.log(apiUrlBase);
+      
+      var product_with_tax = 1.1025;
+      var service_with_tax = 1;
       
     </script>
 

@@ -140,6 +140,9 @@ async function show_query_contracts_page(){
 }
 
 function rsvCheck(){
+  console.log(product_with_tax);
+  console.log(service_with_tax);
+  
   var startDateStr = $("#rsvQueryStartDate").val();
   var endDateStr = $("#rsvQueryEndDate").val();
 
@@ -339,7 +342,7 @@ async function processContractSessionHistory() {
     //sessionResult[i][13] = Math.floor(parseFloat(sessionResult[i][13])*100)/100;  
 
     // 處理 合約總價(未稅)
-    sessionResult[i][14] = parseFloat(sessionResult[i][13])/1.05;  
+    sessionResult[i][14] = parseFloat(sessionResult[i][13])/service_with_tax;  
 
     // 處理 合約已執行堂數                
     var sessionDateTime = sessionResult[i][0]+ " " + sessionResult[i][1];
@@ -362,7 +365,7 @@ async function processContractSessionHistory() {
     sessionResult[i][21] = (parseFloat(sessionResult[i][13])-parseFloat(sessionResult[i][32]))/parseFloat(sessionResult[i][18]);                 
 
     // 處理 課程單價(未稅)                                       
-    sessionResult[i][22] = sessionResult[i][21]/1.05;                
+    sessionResult[i][22] = sessionResult[i][21]/service_with_tax;                
 
     // 合約退費堂數, 退費金額/課程單價(含稅) 已取消
 //    sessionResult[i][20] = sessionResult[i][20]/sessionResult[i][22];               
@@ -374,7 +377,7 @@ async function processContractSessionHistory() {
 
     // 處理 合約已認列金額(未稅)
 //    sessionResult[i][25] = sessionResult[i][24] / 1.05;
-    sessionResult[i][24] = sessionResult[i][23] / 1.05;
+    sessionResult[i][24] = sessionResult[i][23] / service_with_tax;
 
     // 處理 合約未認列金額(含稅)
 //    sessionResult[i][26] = sessionResult[i][13] - sessionResult[i][24];
@@ -408,7 +411,7 @@ async function processContractSessionHistory() {
 
     // 當日認列金額(未稅)
 //    sessionResult[i][29] = sessionResult[i][28]/1.05;  
-    sessionResult[i][28] = sessionResult[i][27]/1.05;  
+    sessionResult[i][28] = sessionResult[i][27]/service_with_tax;  
 
   }
 
@@ -497,7 +500,7 @@ async function processAdmissionFee() {
     admissionFeeResult[i][9] = admissionFeeResult[i][9].substr(0,10);   
 
     // 已認列入會費(未稅)
-    admissionFeeResult[i][11] = admissionFeeResult[i][10]/1.05;    
+    admissionFeeResult[i][11] = admissionFeeResult[i][10]/service_with_tax;    
 
     // 發票種類
     if (admissionFeeResult[i][12]!=null) {
@@ -586,15 +589,15 @@ function productCheck(){
         // 處理日期
         productResult[i][0] = productResult[i][0].substr(0,10);     
         
-        productResult[i][8] =  productResult[i][7]/1.05;          // 處理產品單價(未稅)
+        productResult[i][8] =  productResult[i][7]/product_with_tax;          // 處理產品單價(未稅)
         
         productResult[i][10] =  productResult[i][7] *  productResult[i][9]; // 處理小計(含稅)
         productResult[i][11] =  productResult[i][8] *  productResult[i][9]; // 處理小計(未稅)
         
         
-        productResult[i][13] = productResult[i][12]/1.05;         // 處理合約總價(未稅)
+        productResult[i][13] = productResult[i][12]/product_with_tax;         // 處理合約總價(未稅)
         productResult[i][14] = productResult[i][14].substr(0,10); // 處理付款日         
-        productResult[i][16] = productResult[i][15]/1.05;         // 處理付款金額(未稅)  
+        productResult[i][16] = productResult[i][15]/product_with_tax;         // 處理付款金額(未稅)  
      
         // 付款方式
         if (productResult[i][17]!=null) {
@@ -814,7 +817,7 @@ async function contractCheck(){
     contractResult[i][6]=contractResult[i][6].substr(0,10);
     
     // 合約總價(未稅)
-    contractResult[i][8]=contractResult[i][7]/1.05;
+    contractResult[i][8]=contractResult[i][7]/service_with_tax;
     
     // 合約已執行堂數 
     if (contractSessionHistory[contractResult[i][3]] == undefined) {
@@ -847,7 +850,7 @@ async function contractCheck(){
     contractResult[i][13] = (contractResult[i][7]-contractResult[i][77])/contractResult[i][10]; //需扣掉入會費
 
     // 課程單價(未稅)
-    contractResult[i][14] = contractResult[i][13]/1.05; 
+    contractResult[i][14] = contractResult[i][13]/service_with_tax; 
     
     // 比對使用課程
     if (contractSessionHistory[contractResult[i][3]] == undefined) {
@@ -868,7 +871,7 @@ async function contractCheck(){
       contractResult[i][46]= contractResult[i][7] - contractResult[i][44]; 
       
       // 合約未認列金額(未稅) = 合約未認列金額(含稅)/1.05;
-      contractResult[i][47]= contractResult[i][46]/1.05;         
+      contractResult[i][47]= contractResult[i][46] / service_with_tax;         
       
     } else {
       // 期初可用堂數 = 合約堂數 - 前年度用掉的堂數      
@@ -878,13 +881,13 @@ async function contractCheck(){
       contractResult[i][16]=contractResult[i][13] * contractSessionHistory[contractResult[i][3]].less(queryYear+"-04");
       
       // 上期認列金額(未稅) = 上期認列金額(含稅)/1.05
-      contractResult[i][17]=contractResult[i][16]/1.05;      
+      contractResult[i][17]=contractResult[i][16]/service_with_tax;      
       
       // 上期未認列金額(含稅) = 合約總價(含稅) - 上期認列金額(含稅)
       contractResult[i][18] = contractResult[i][7] - contractResult[i][16];
       
       // 上期未認列金額(未稅) = 3/31 之前合約剩餘金額(含稅)/1.05
-      contractResult[i][19] = contractResult[i][18]/1.05;   
+      contractResult[i][19] = contractResult[i][18]/service_with_tax;   
       
       // 今年 4 月 ~ 明年 3 月使用堂數
       for (var j = 20; j<32; j++) contractResult[i][j]=sessionsInContractByMonth[contractResult[i][3]][j-20];
@@ -902,13 +905,13 @@ async function contractCheck(){
       contractResult[i][44]= contractResult[i][13] * contractResult[i][11]; 
       
       // 合約已認列金額(未稅) = 合約已認列金額(含稅)/1.05;
-      contractResult[i][45]= contractResult[i][44]/1.05;       
+      contractResult[i][45]= contractResult[i][44]/service_with_tax;       
       
       // 合約未認列金額(含稅) = 合約總價(含稅) - 合約已認列金額(含稅)
       contractResult[i][46]= contractResult[i][7] - contractResult[i][44]; 
       
       // 合約未認列金額(未稅) = 合約未認列金額(含稅)/1.05;
-      contractResult[i][47]= contractResult[i][46]/1.05;         
+      contractResult[i][47]= contractResult[i][46]/service_with_tax;         
       
     }    
        
@@ -922,13 +925,13 @@ async function contractCheck(){
     }
     
     // 顧客已付金額(未稅) = 顧客已付金額(含稅)/1.05
-    contractResult[i][49] = contractResult[i][48]/1.05;
+    contractResult[i][49] = contractResult[i][48]/service_with_tax;
     
     // 顧客尚未付金額(含稅) = 合約總價(含稅) - 顧客已付金額(含稅)
     contractResult[i][50] = contractResult[i][7] - contractResult[i][48];
     
     // 顧客尚未付金額(未稅) = 顧客尚未付金額(含稅)/1.05
-    contractResult[i][51] = contractResult[i][50]/1.05;    
+    contractResult[i][51] = contractResult[i][50]/service_with_tax;    
     
     // 2021-09-22 RIZAP 要求只留最後一列
     if (i>0 && contractResult[i][3] == previousContract){
@@ -969,7 +972,7 @@ async function contractCheck(){
       contractResult[i][53] = contractResult[i][7] - contractResult[i][48];
       
       // 54 取消金額(未稅) = 取消金額(含稅)/1.05
-      contractResult[i][54] = contractResult[i][53]/1.05
+      contractResult[i][54] = contractResult[i][53]/service_with_tax
       
       // 52 取消堂數 = 取消金額(含稅) / 課程單價(含稅)
       contractResult[i][52] = contractResult[i][53]/contractResult[i][13];
@@ -981,7 +984,7 @@ async function contractCheck(){
       contractResult[i][56] = 合約剩餘堂數*contractResult[i][13];
         
       // 57 折讓金額(未稅)
-      contractResult[i][57] = contractResult[i][56]/1.05;
+      contractResult[i][57] = contractResult[i][56]/service_with_tax;
       
 
       
@@ -989,7 +992,7 @@ async function contractCheck(){
       contractResult[i][58] = contractResult[i][79];
       
       // 59 折讓稅額 = (折讓金額(含稅) - 手續費(含稅)/1.05 * 5% = (折讓金額(未稅) - 手續費(未稅))*0.05
-      contractResult[i][59] = (contractResult[i][56] - contractResult[i][58])/1.05*0.05;
+      contractResult[i][59] = (contractResult[i][56] - contractResult[i][58])/(service_with_tax*(service_with_tax-1.0));
     }
     
     
@@ -1010,7 +1013,7 @@ async function contractCheck(){
     contractResult[i][62] = contractResult[i][64];
 
     // 付款金額1(未稅) = 付款金額(含稅)/1.05
-    contractResult[i][63] = contractResult[i][62]/1.05;
+    contractResult[i][63] = contractResult[i][62]/service_with_tax;
     
     // 發票種類1
      contractResult[i][64] = "";
